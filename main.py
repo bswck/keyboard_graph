@@ -17,15 +17,15 @@ def map_char(ch):
     return ch
 
 
-def load_layout(layout=DEFAULT_LAYOUT_ID):
+def load_keyboard_layout(layout=DEFAULT_LAYOUT_ID):
     with open(f'./layouts/{layout.upper()}.txt') as f:
         rows = map(lambda row: tuple(map(map_char, row)), map(tuple, f.read().split('\n')))
         return tuple(itertools.zip_longest(*rows, fillvalue=SKIP_VAL))
 
 
-def create_graph(layout=None):
+def create_keyboard_graph(layout=None):
     if layout is None:
-        layout = load_layout()
+        layout = load_keyboard_layout()
 
     rows = tuple(layout)
     graph = nx.Graph()
@@ -75,11 +75,11 @@ class Keyboard:
 
     @functools.cached_property
     def layout(self):
-        return load_layout(self.layout_id)
+        return load_keyboard_layout(self.layout_id)
 
     @functools.cached_property
     def graph(self):
-        return create_graph(self.layout)
+        return create_keyboard_graph(self.layout)
 
     def key(self, char):
         return Key(char, tuple(self.graph.adj[char]))
@@ -89,17 +89,17 @@ class Keyboard:
 
 
 def draw_keyboard(layout_id=DEFAULT_LAYOUT_ID):
-    layout = load_layout(layout_id)
-    g = create_graph(layout)
-    nx.draw(g)
+    layout = load_keyboard_layout(layout_id)
+    graph = create_keyboard_graph(layout)
+    nx.draw_kamada_kawai(
+        graph,
+        with_labels=True,
+        node_color='lightgrey',
+        node_shape='s',
+    )
     plt.show()
 
 
 if __name__ == '__main__':
     keyboard = Keyboard()
-
-    print('Keyboard', keyboard.layout)
-    for key in keyboard:
-        print('→'.center(3), str(key))
-
     draw_keyboard()
