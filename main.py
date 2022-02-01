@@ -7,7 +7,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 
 SKIP_VAL = ''
-LOOK_BEHIND = 0
+LOOK_BEHIND = -1
 DEFAULT_LAYOUT_ID = 'QWERTY'
 
 
@@ -71,15 +71,15 @@ def create_keyboard_graph(layout=None):
             if char == SKIP_VAL:
                 continue
 
-            if not looked_behind:
+            if char != LOOK_BEHIND:
                 graph.add_node(char)
 
             if column_edge != SKIP_VAL:
                 graph.add_edge(char, column_edge)
 
-            column_edge = char
-
             if not looked_behind:
+                column_edge = char
+
                 in_column_behind = row_edges[column - 1][row]
                 if in_column_behind != SKIP_VAL:
                     graph.add_edge(char, in_column_behind)
