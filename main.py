@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 SKIP_CHAR = '_'
 SKIP_VAL = ''
-DEFAULT_LAYOUT = 'QWERTY'
+DEFAULT_LAYOUT_ID = 'QWERTY'
 
 
 def map_char(ch):
@@ -17,7 +17,7 @@ def map_char(ch):
     return ch
 
 
-def load_layout(layout=DEFAULT_LAYOUT):
+def load_layout(layout=DEFAULT_LAYOUT_ID):
     with open(f'./layouts/{layout.upper()}.txt') as f:
         rows = map(lambda row: tuple(map(map_char, row)), map(tuple, f.read().split('\n')))
         return tuple(itertools.zip_longest(*rows, fillvalue=SKIP_VAL))
@@ -64,7 +64,7 @@ class Key:
 
 @dataclasses.dataclass
 class Keyboard:
-    layout_id: str = DEFAULT_LAYOUT
+    layout_id: str = DEFAULT_LAYOUT_ID
 
     @functools.cached_property
     def keys(self):
@@ -88,8 +88,9 @@ class Keyboard:
         yield from self.keys
 
 
-def draw_keyboard():
-    g = create_graph()
+def draw_keyboard(layout_id=DEFAULT_LAYOUT_ID):
+    layout = load_layout(layout_id)
+    g = create_graph(layout)
     nx.draw(g)
     plt.show()
 
