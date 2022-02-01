@@ -59,18 +59,20 @@ def create_keyboard_graph(layout=None):
 
     for column, chars in enumerate(rows):
         column_edge = SKIP_VAL
+        looked_behind = 0
 
         for row, char in enumerate(chars):
-            looked_behind = False
-
             if char == LOOK_BEHIND:
-                looked_behind = True
-                char = row_edges[column - 1][row]
+                looked_behind += 1
+                char = row_edges[column - looked_behind][row]
+            else:
+                looked_behind = 0
 
             if char == SKIP_VAL:
                 continue
 
-            graph.add_node(char)
+            if not looked_behind:
+                graph.add_node(char)
 
             if column_edge != SKIP_VAL:
                 graph.add_edge(char, column_edge)
