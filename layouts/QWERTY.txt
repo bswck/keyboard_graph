@@ -1,5 +1,10 @@
-`1234567890-=
-_QWERTYUIOP[]\
-_ASDFGHJKL;'
-_ZXCVBNM,./
-____
+=_
+=|
+=*
+
+Esc|F1|F2|F3|F4|F5|F6|F7|F8|F9|F10|F11|F12
+`|1|2|3|4|5|6|7|8|9|0|-|=|←
+Ta|Q|W|E|R|T|Y|U|I|O|P|[|]|\
+CL|A|S|D|F|G|H|J|K|L|;|'|En
+Sh|Z|X|C|V|B|N|M|,|.|/|Shr
+Ct|Fn|Cmd|Alt|    ***|AG|Mo|Ctr|
